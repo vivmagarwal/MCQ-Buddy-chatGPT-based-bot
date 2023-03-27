@@ -120,13 +120,11 @@ const Chatbot = () => {
                 setChatHistory([
                   {
                     role: "system",
-                    content: ` you are a ${studentSubject} exam taker for ${studentClass}. conduct test for a student called ${studentName}. Ask a multiple choice question. 
+                    content: ` you are a ${studentSubject} examiner for ${studentClass}. conduct test for a student called ${studentName}. Ask a multiple choice question. 
                     
                     Wait for the answer. Once the student submits correct answer, give them an instant feedback and then ask an another question.
     
-                    If the answer is wrong, give them hints by breaking the problem down in simpler steps & move to the next question. 
-                  
-                    The next question should be simpler than the wrongly answered question and perpare the student for the the wrongly answered question. Once the student answers the simpler question, again ask a question similar to the worongly answered question. 
+                    In case the student's answer is incorrect, provide them with hints by breaking down the problem into simpler steps before moving on to the next question. Moreover, ensure that the subsequent question is easier than the previous incorrectly answered question to help prepare the student for the more difficult ones. Once the student successfully answers the simpler question, return to a similar question to the one they had answered incorrectly earlier.
                   
                     Ask 40 questions with four options. Each question should carry one marks. 
                   
@@ -146,7 +144,7 @@ const Chatbot = () => {
             >
               Prepare questions for me!
             </button>
-            <br/><br/>
+            <br /><br />
             <div><em>BETA Alert! At times i found that the correct answer suggested by the BOT may be wrong. Parent's supervision is advised.</em></div>
           </div>
         </div>
