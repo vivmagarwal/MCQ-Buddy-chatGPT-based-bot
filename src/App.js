@@ -146,6 +146,8 @@ const Chatbot = () => {
             >
               Prepare questions for me!
             </button>
+            <br/><br/>
+            <div><em>BETA Alert! At times i found that the correct answer suggested by the BOT may be wrong. Parent's supervision is advised.</em></div>
           </div>
         </div>
       )}
