@@ -25,7 +25,7 @@ const Chatbot = () => {
     try {
 
       const response = await axios.post(
-        `${process.env.REACT_APP_PROXY_URL}/openai-chat`,
+        `https://fair-cyan-indri-robe.cyclic.app/openai-chat`,
         {
           model: "gpt-3.5-turbo",
           messages: newChatHistory,
