@@ -1,6 +1,13 @@
 import "./styles.css";
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
+import { Configuration, OpenAIApi } from "openai";
+
+const configuration = new Configuration({
+  apiKey: process.env.REACT_APP_OPENAI_SECRET,
+});
+
+const openai = new OpenAIApi(configuration);
 
 const Chatbot = () => {
   const inputRef = useRef(null);
@@ -25,17 +32,18 @@ const Chatbot = () => {
     try {
 
       const response = await axios.post(
-        `https://fair-cyan-indri-robe.cyclic.app/openai-chat`,
+        `https://open-ai-server.iifsd.in/openai-chat`,
         {
           model: "gpt-3.5-turbo",
           messages: newChatHistory,
         }
       );      
 
+
       // const response = await axios.post(
       //   "https://api.openai.com/v1/chat/completions",
       //   {
-      //     model: "gpt-3.5-turbo",
+      //     model: "gpt-4",
       //     messages: newChatHistory,
       //   },
       //   {
@@ -45,6 +53,12 @@ const Chatbot = () => {
       //     },
       //   }
       // );
+
+      // Replace `gpt-3.5-turbo` with `gpt-4` if you have early access to GPT-4
+      // const response = await openai.createChatCompletion({
+      //   model: "gpt-3.5-turbo",
+      //   messages: newChatHistory
+      // })
 
       console.log(response);
       setLoading(false);
@@ -62,7 +76,7 @@ const Chatbot = () => {
     } catch (error) {
       setLoading(false);
       setError("Oops! Something went wrong. Please try again later.");
-      console.error(error);
+      console.log(error);
     }
   };
 
