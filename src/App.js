@@ -19,6 +19,7 @@ const Chatbot = () => {
   const [studentName, setStudentName] = useState("Saavi");
   const [studentClass, setStudentClass] = useState("IB PYP grade 3");
   const [studentSubject, setStudentSubject] = useState("Maths");
+  const [numberOfQuestions, setNumberOfQuestions] = useState(20);
   const [chatHistory, setChatHistory] = useState([]);
 
   const sendMessage = async (message) => {
@@ -30,37 +31,14 @@ const Chatbot = () => {
     setError(null);
 
     try {
-
       const response = await axios.post(
-        `https://open-ai-server.iifsd.in/openai-chat`,
+        `https://openai.cyclic.app/v1/chat/completions`,
         {
           model: "gpt-3.5-turbo",
           messages: newChatHistory,
         }
-      );      
+      );
 
-
-      // const response = await axios.post(
-      //   "https://api.openai.com/v1/chat/completions",
-      //   {
-      //     model: "gpt-4",
-      //     messages: newChatHistory,
-      //   },
-      //   {
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       Authorization: `Bearer ${process.env.REACT_APP_OPENAI_SECRET}`,
-      //     },
-      //   }
-      // );
-
-      // Replace `gpt-3.5-turbo` with `gpt-4` if you have early access to GPT-4
-      // const response = await openai.createChatCompletion({
-      //   model: "gpt-3.5-turbo",
-      //   messages: newChatHistory
-      // })
-
-      console.log(response);
       setLoading(false);
 
       const chatbotMessage = response.data.choices[0].message.content;
@@ -137,6 +115,16 @@ const Chatbot = () => {
                 onChange={(event) => setStudentSubject(event.target.value)}
               />
             </label>
+            <label>
+              Number of Questions:
+              <input
+                type="number"
+                value={numberOfQuestions}
+                min="1"
+                onChange={(event) => setNumberOfQuestions(event.target.value)}
+              />
+            </label>
+
             <button
               className="btn-start-test"
               onClick={() => {
@@ -149,11 +137,9 @@ const Chatbot = () => {
     
                     In case the student's answer is incorrect, provide them with hints by breaking down the problem into simpler steps before moving on to the next question. Moreover, ensure that the subsequent question is easier than the previous incorrectly answered question to help prepare the student for the more difficult ones. Once the student successfully answers the simpler question, return to a similar question to the one they had answered incorrectly earlier.
                   
-                    Ask 40 questions with four options. Each question should carry one marks. 
+                    Ask total ${numberOfQuestions} questions with four options. Each question should carry one marks. 
                   
                     At the end of the test give them total marks and the list of questions that they were not able to answer. 
-                  
-                    Form question number 10 onwards, include harder ${studentSubject} word problems, if applicable. 
                   
                     Keep track of the time taken to answer each question. 
                   
@@ -167,8 +153,14 @@ const Chatbot = () => {
             >
               Prepare questions for me!
             </button>
-            <br /><br />
-            <div><em>BETA Alert! At times i found that the correct answer suggested by the BOT may be wrong. Parent's supervision is advised.</em></div>
+            <br />
+            <br />
+            <div>
+              <em>
+                BETA Alert! At times i found that the correct answer suggested
+                by the BOT may be wrong. Parent's supervision is advised.
+              </em>
+            </div>
           </div>
         </div>
       )}
@@ -182,9 +174,7 @@ const Chatbot = () => {
         ))}
       </div>
       <div className="chat-input">
-
         <div className="buttons-container">
-          
           <button
             className="button-start"
             id="start-button"
@@ -192,31 +182,30 @@ const Chatbot = () => {
           >
             Start the test
           </button>
-          
+
           <button className="button-option" onClick={() => handleOption("a")}>
             a
           </button>
-          
+
           <button className="button-option" onClick={() => handleOption("b")}>
             b
           </button>
-          
+
           <button className="button-option" onClick={() => handleOption("c")}>
             c
           </button>
-          
+
           <button className="button-option" onClick={() => handleOption("d")}>
             d
           </button>
-          
+
           <button className="button-skip" onClick={handleSkip}>
             Skip
           </button>
-          
+
           <button className="button-hint" onClick={handleHint}>
             Hint
           </button>
-
         </div>
 
         <textarea
